@@ -3,7 +3,7 @@
 
 ### Downloads: 
 
-[MyGame_x86](https://github.com/XingnanChen/Engineer2/blob/master/Assignment05/MyGame_x85.zip?raw=true)  
+[MyGame_x86](https://github.com/XingnanChen/Engineer2/blob/master/Assignment05/MyGame_x86.zip?raw=true)  
 [MyGame_x64](https://github.com/XingnanChen/Engineer2/blob/master/Assignment05/MyGame_x64.zip?raw=true)
 
 
