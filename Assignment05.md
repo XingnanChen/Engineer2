@@ -111,9 +111,7 @@ m_cameraOrientation and position from m_rigidbody are used to define the WorldTo
 ```
 The rest are used to create the CameraToPorjected transformation.
 
-Once the camera is initialized, the camera object is submitted to the data to be rendered like other data. Follow the same logic, these data will be used by shader at runtime.
-
-
+Once the camera is initialized, the camera object is submitted to the data to be rendered like other data. Follow the same logic, these data will be used by shader at runtime.  
 
 2. Move the camera/object by changing the velocity when holding down the keys  
 There are some exist functions in the sRigidBodyState class to update the velocity or the position of objects. A function called PreedictFuturePosition() is used to calculated  the net position of the object. In function submitdatatoberendered or updatesimulationbasedontime we can update the position of the object. And similar to the previous assignment, the velocity of the object is changed when a key is pressed. There isn't anything to talk about it, if you're curious on how to do it, please check the previous assignment.
