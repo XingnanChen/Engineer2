@@ -40,8 +40,14 @@ return
 	}
 }
 ```  
-说明为什么这个是readable的，并且为了readable做了哪些操作  
+It is easy to read as I added some comments and made a organized format. It is also keep the efficient for the machine. 
 
 - Loading the meshes  
-说明怎么loading的  
-放debugging mesh builder的截图  
+Using the same logic in the example lua project to load the meshes.  
+
+This is the screenshot for debugging mesh builder  
+![Image](Assignment06/debug.png)    
+
+###Fixed bugs  
+- Initialize the meshes and effects(the game won't crash right now): Meshes and effects are no longer loaded dynamically.  
+- The object moves fast in x64: Reason: Implement the movement in the wrong function(SubmitDataToBeRendered).  Fixed: Implement it in UpdateSimulationBasedOnTime.   
