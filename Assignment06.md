@@ -48,6 +48,6 @@ Using the same logic in the example lua project to load the meshes.
 This is the screenshot for debugging mesh builder  
 ![Image](Assignment06/debug.png)    
 
-###Fixed bugs  
+### Fixed bugs  
 - Initialize the meshes and effects(the game won't crash right now): Meshes and effects are no longer loaded dynamically.  
 - The object moves fast in x64: Reason: Implement the movement in the wrong function(SubmitDataToBeRendered).  Fixed: Implement it in UpdateSimulationBasedOnTime.   
