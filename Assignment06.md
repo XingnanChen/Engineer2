@@ -20,10 +20,28 @@ When user press F4. The mesh above will switch it's mesh from a square to a tria
 - Human-readable mesh file  
 Many people perhaps have access to the asset files. Making asset files that are human-readable is to make it easy to create or edit by others.    
 This is how I make my human-readable mesh file:  
-显示一个mesh file的截图  
+```
+return
+{
+	-- every three value in the vertexData array is a vertex data
+	-- the vertex is in x, y, z order,
+	vertexData = {
+		0,	0,	0, 
+		0.8,	0,	0, 
+		0.8,	-0.8,	0, 
+		0,	-0.8,	0
+	},
+
+	-- every three value in the indexData array are the vertex indexes of a triangle
+	-- the vertices is in right-hand order,
+	indexData = {
+		0,	1,	2,
+		0,	2,	3
+	}
+}
+```  
 说明为什么这个是readable的，并且为了readable做了哪些操作  
 
 - Loading the meshes  
-放一下loading meshes的代码  
 说明怎么loading的  
 放debugging mesh builder的截图  
