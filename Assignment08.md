@@ -21,9 +21,7 @@ Game Running
 	![Image](Assignment08/Space.png) 
 	![Image](Assignment08/Time.png)
 	  
-	I created a Helix with 40780 vertices and 61140 indices, the binary takes 598 KB and the Lua file takes 1639 KB. It takes 0.002438 to load binary while 0.0510184 seconds to load the Lua file. From this simple benchmark, we can tell there is a huge advantage in using binary format at runtime. Binary only takes around 598 / 1639  = 35% space of the Lua file and 0.0510184 / 0.002438 = 20 times faster than Lua in loading.  
-
-	From this simple benchmark, we can tell there is a huge advantage in using binary format at runtime. Binary only takes around 598 / 1639  = 35% space of the Lua file and 0.0510184 / 0.002438 = 20 times faster than Lua in loading.
+	I created a Helix with 40780 vertices and 61140 indices, the binary takes 598 KB and the Lua file takes 1639 KB. It takes 0.002438 to load binary while 0.0510184 seconds to load the Lua file. From this simple benchmark, we can tell there is a huge advantage in using binary format at runtime. Binary only takes around 598 / 1639  = 35% space of the Lua file and 0.0510184 / 0.002438 = 20 times faster than Lua in loading.
 
 
 - Write and extract in binary
@@ -34,7 +32,7 @@ outfile.write(reinterpret_cast<const char*>(&indexCount), sizeof(uint32_t));
 outfile.write(reinterpret_cast<const char*>(indexData), sizeof(uint16_t) * indexCount);
 ```
 
-These are the data I wrote to the binary file, we can tell vertexCount, indexCount and indexData are platform-independent since uint32_t and uint16_t are fixed size on every platform. sVertex_mesh is a struct with three float data. So if the float type in C++ is platform-independent, the output binary should be independent. But C++ standard never guarantees the size of the float would be the same on different platforms, though in practice nearly every mainstream platform (especially platforms for the game) implements float type under the IEE-754 standard which is 32 bit. But the standard is standard, we cannot say our output is completely platform-independent.  
+These are the data I wrote to the binary file, we can tell vertexCount, indexCount and indexData are platform-independent since uint32_t and uint16_t are fixed size on every platform. sVertex_mesh is a struct with three float data. So if the float type in C++ is platform-independent, the output binary should be independent. But C++ standard never guarantees the size of the float would be the same on different platforms, though in practice nearly every mainstream platform (especially platforms for the game) implements float type under the IEE-754 32 bit standard. But the standard is standard, we cannot say our output is completely platform-independent.  
 
 And here is the code snippet I used to load data from the binary file, it's far easier than parsing with Lua.
 
