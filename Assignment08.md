@@ -19,7 +19,8 @@ Game Running
   
 - Using binary file formats, we can save a lot of space on the disk. Comparing with the human-readable files, we only have data in the binary file. And using lua files will cost more time than binary files.  
 	![Image](Assignment08/Space.png) 
-	![Image](Assignment08/Time.png) 
+	![Image](Assignment08/Time.png)
+	  
 	I created a Helix with 40780 vertices and 61140 indices, the binary takes 598 KB and the Lua file takes 1639 KB. It takes 0.002438 to load binary while 0.0510184 seconds to load the Lua file. From this simple benchmark, we can tell there is a huge advantage in using binary format at runtime. Binary only takes around 598 / 1639  = 35% space of the Lua file and 0.0510184 / 0.002438 = 20 times faster than Lua in loading.  
 
 	From this simple benchmark, we can tell there is a huge advantage in using binary format at runtime. Binary only takes around 598 / 1639  = 35% space of the Lua file and 0.0510184 / 0.002438 = 20 times faster than Lua in loading.
