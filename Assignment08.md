@@ -1,5 +1,5 @@
 
-## Assignment 07 Write-up  
+## Assignment 08 Write-up  
 
 ### Downloads: 
 
@@ -15,44 +15,48 @@ Game Running
 - Using .lua to generate a binary file in MeshBuilder.    
 	The example of a binary geometry file built by MeshBuilder:   
 ![Image](Assignment08/binary.png)   
-  The Order of the four things is VertexCount, VertexPositionData, IndexCount, IndexData. By giving the count of the vertices and I already know that one vertex has 4 bytes, I can write the index count next to the last vertex position data easily.  
+	The order of the data is VertexCount, VertexPositionData, IndexCount, IndexData. The VertexCount should be written before VertexPositionData, and IndexCount should be written before IndexData. Since when we load from the binary file, we should know the size of the data in advance, or we won't know what the size should be initialized with.  
   
-	Using binary file formats, we can save a lot of space on the disk. Comparing with the human-readable files, we only have data in the binary file. And using lua files will cost more time than using binary files. 
+- Using binary file formats, we can save a lot of space on the disk. Comparing with the human-readable files, we only have data in the binary file. And using lua files will cost more time than binary files. 
+	![Image](Assignment08/space.png) 
+	![Image](Assignment08/time.png) 
+	I created a Helix with 40780 vertices and 61140 indices, the binary takes 598 KB and the Lua file takes 1639 KB. It takes 0.002438 to load binary while 0.0510184 seconds to load the Lua file. From this simple benchmark, we can tell there is a huge advantage in using binary format at runtime. Binary only takes around 598 / 1639  = 35% space of the Lua file and 0.0510184 / 0.002438 = 20 times faster than Lua in loading.
 
-补充：：Please present the differences in size and speed in a way that is easy for your readers to understand 。Don't just show some table without explaining why it's relevant. Help your readers to understand how the results demonstrate the advantages of binary files.
+	From this simple benchmark, we can tell there is a huge advantage in using binary format at runtime. Binary only takes around 598 / 1639  = 35% space of the Lua file and 0.0510184 / 0.002438 = 20 times faster than Lua in loading.
 
-Create a mesh in Maya with a large number of vertices and indices to measure the advantages of binary files
-A helix is a good choice for this because there are many parameters that can greatly increase the vertex/index count. Make it have as many as you can that will still fit within the limits of uint16_ts and 16-bit indices. You don't need to commit this to git; just make it temporarily to do measurements for your write-up and then delete it.
-If you complete the optional challenge to support 32-bit indices you can also compare a geometry with 32-bit indices, but you should still do the comparison for a geometry with 16-bit indices
-Tell us how big (in bytes) the human-readable version is on disk and how big (in bytes) the binary version is on disk
-Tell us how long it takes to load the human-readable version and how long it takes to load the binary version
-You can use functions from the Time project for this. Make this temporary code and revert it after you have made measurements!
-To time the human-readable version put timing code in MeshBuilder. Make sure to time not just how long it takes to load the Lua file but how long it takes to extract the data. (You should start timing right before loading and end timing right before writing out the binary file.) You can put a temporary print statement with the total time that will show up in Visual Studio's Output window.
-To time the binary version put timing code in your run-time mesh loading code. Make sure to time not just how long it takes to load the binary file but how long it takes to extract the data. You can put in a temporary logging statement with the total time that will show up in your log file.
-When measuring run-time performance double-click the EXE to run the game rather than attaching a debugger. The debugger can make the game run more slowly than it otherwise would.
-Make sure to do this timing on a release build! (It doesn't matter which platform you time, though.)
 
-uint32_t和float的东西：Tell us whether the built binary geometry files should be the same or different for the different platforms, and explain why. (In other words, should the binary file for a specific mesh that your MeshBuilder outputs for Direct3D be the same as the one that it outputs for that same mesh in OpenGL? If so, explain why. If not, explain why there are differences and what they are.)
-
-- Load the binary file at run-time  
-Extract the four pieces of data from binary data at run-time 
+- Write and extract in binary
 ```cpp
+outfile.write(reinterpret_cast<const char*>(&vertexCount), sizeof(uint32_t));
+outfile.write(reinterpret_cast<const char*>(vertexData), sizeof(Graphics::VertexFormats::sVertex_mesh) * vertexCount);
+outfile.write(reinterpret_cast<const char*>(&indexCount), sizeof(uint32_t));
+outfile.write(reinterpret_cast<const char*>(indexData), sizeof(uint16_t) * indexCount);
+```
+
+These are the data I wrote to the binary file, we can tell vertexCount, indexCount and indexData are platform-independent since uint32_t and uint16_t are fixed size on every platform. sVertex_mesh is a struct with three float data. So if the float type in C++ is platform-independent, the output binary should be independent. But C++ standard never guarantees the size of the float would be the same on different platforms, though in practice nearly every mainstream platform (especially platforms for the game) implements float type under the IEE-754 standard which is 32 bit. But the standard is standard, we cannot say our output is completely platform-independent.  
+
+And here is the code snippet I used to load data from the binary file, it's far easier than parsing with Lua.
+
+```cpp
+size_t curSize = sizeof(vertexCount);
+auto currentOffset = reinterpret_cast<uintptr_t>(dataFromFile.data);
+
 memcpy(&vertexCount, reinterpret_cast<void*>(currentOffset), curSize);
-				currentOffset += curSize;
-				newMesh->vertexCount = vertexCount;
+currentOffset += curSize;
+newMesh->vertexCount = vertexCount;
 
-				newMesh->vertexData = new VertexFormats::sVertex_mesh[vertexCount];
-				curSize = sizeof(VertexFormats::sVertex_mesh) * vertexCount;
-				memcpy(newMesh->vertexData, reinterpret_cast<void*>(currentOffset), curSize);
-				currentOffset += curSize;
+newMesh->vertexData = new VertexFormats::sVertex_mesh[vertexCount];
+curSize = sizeof(VertexFormats::sVertex_mesh) * vertexCount;
+memcpy(newMesh->vertexData, reinterpret_cast<void*>(currentOffset), curSize);
+currentOffset += curSize;
 
-				curSize = sizeof(indexCount);
-				memcpy(&indexCount, reinterpret_cast<void*>(currentOffset), curSize);
-				currentOffset += curSize;
-				newMesh->indexCount = indexCount;
+curSize = sizeof(indexCount);
+memcpy(&indexCount, reinterpret_cast<void*>(currentOffset), curSize);
+currentOffset += curSize;
+newMesh->indexCount = indexCount;
 
-				newMesh->indexData = new uint16_t[indexCount];
-				curSize = sizeof(uint16_t) * indexCount;
-				memcpy(newMesh->indexData, reinterpret_cast<void*>(currentOffset), curSize);
-  ```
+newMesh->indexData = new uint16_t[indexCount];
+curSize = sizeof(uint16_t) * indexCount;
+memcpy(newMesh->indexData, reinterpret_cast<void*>(currentOffset), curSize);
+```
 
