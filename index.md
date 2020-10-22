@@ -8,6 +8,8 @@ This repo is built for EAE6320 projects Write-up.
 [Assignment 4](https://xingnanchen.github.io/Engineer2/Assignment04)  
 [Assignment 5](https://xingnanchen.github.io/Engineer2/Assignment05)  
 [Assignment 6](https://xingnanchen.github.io/Engineer2/Assignment06)  
-[Assignment 7](https://xingnanchen.github.io/Engineer2/Assignment07)    
+[Assignment 7](https://xingnanchen.github.io/Engineer2/Assignment07)      
+[Assignment 7](https://xingnanchen.github.io/Engineer2/Assignment08)  
+[Assignment 7](https://xingnanchen.github.io/Engineer2/Assignment09)          
 
 
