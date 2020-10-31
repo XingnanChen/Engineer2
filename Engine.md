@@ -1,63 +1,21 @@
+## Controller Engine  
+ 
+A game controller is an input device(keyboard, mouse, gamepad) to provide input to a video game, typically to control an object or character in the game.   
 
-## Assignment 09 Write-up  
+Making a controller engine is easy for users to get the inputs from different devices and control the objects by inputs.  
 
-### Downloads: 
+My project is to create a controller engine that can:   
+Get inputs from different devices(keyboard, mouse, gamepad)  
+Provide the interface that users can bind the inputs with users’ functions. Users can use the interfaces from this engine to control the objects easily.  
 
-[MyGame_x86](https://github.com/XingnanChen/Engineer2/blob/master/Assignment09/MyGame_x86.zip?raw=true)  
-[MyGame_x64](https://github.com/XingnanChen/Engineer2/blob/master/Assignment09/MyGame_x64.zip?raw=true)  
+Hardware input from a player commonly includes key presses, mouse clicks. I referred to UE4’s input interface:  
+ControllerEngine->BindAction(InputKey key, InputEvent keyEvent, Function func) is bound to event-driven behavior.   
+key: Enum type, the value of the input key.   
+keyEvent: Enum type, representing the key’s state, such as pressed or released.  
+func: user-defined function.  
+This function is used to bind the input key and its state to the user-defined function. The Function type definition is the most complicated to implement. After some early research(https://stackoverflow.com/questions/48967706/how-to-pass-stdfunction-with-different-parameters-to-same-function ), std::function and variadic template will be used to solve this problem.  
 
-### ScreenShots  
-Game Running  
-![Image](Assignment09/gamerunning.gif)  
+I am looking forward to making a user-friendly controller game engine to deal with the inputs. I will focus on providing interfaces with inputs from the keyboard and mouse first.   
 
-### Implementation:  
-This assignment is to create human readable effect lua file and build a binary effect file from this lua file to improve the performance.  
-
-- Create a human readable effect lua file: 
-```lua  
-return
-{
-	vertexShaderPath = "Shaders/Vertex/standard.shader",
-	fragmentShaderPath = "Shaders/Fragment/myShader.shader",
-	renderState =
-	{
-		AlphaTransparency = "false",
-		DepthTesting = "true",
-		DepthWriting = "true",
-		DrawBothTriangleSides = "false"
-	}
-}
-```  
-
-- Build binary file from lua  
-binary file:  
-![Image](Assignment09/binary.png)  
-
-Because there already have some method(null-termination) to find the paths(string type), we don't need to add the string length before each path. So the structure of my binary file was render_state_bits(2 bytes) + first_path(36 bytes) + second_path(38 bytes).
-I added the prefix "data\" to the path in EffectBuilder. It decreases run-time cost while increases file size. In context of performance, whether we add the prefix at run-time or build-time there are advantages and disadvantages. So I focus more on the semantics of the data. This piece of data in binary file stands for "path of shader file at runtime", so it's more reasonable to consider the path in runtime's environment, which is relative to $(GameInstallDir).
-
--load the data from binary file in run-time  
-```cpp
-	std::string vertex_shader_path, fragment_shader_path;
-	uint8_t render_state_bits;
-	auto currentOffset = reinterpret_cast<uintptr_t>(dataFromFile.data);
-
-	memcpy(&render_state_bits, reinterpret_cast<void>(currentOffset), sizeof(render_state_bits));
-
-	currentOffset += sizeof(render_state_bits);
-
-	vertex_shader_path = reinterpret_cast<char>(currentOffset);
-	currentOffset += vertex_shader_path.size() + 1;
-
-	fragment_shader_path = reinterpret_cast<char*>(currentOffset);
-```  
-
-According to the structure of my binary file, I calculated the size of render state first. The byte next to the the render_state_bits was the start of the first path. I could extract the first path with the *string& operator= (const char\* s)* to get string from *char\**. Then I added first path's length( vertex_shader_path.size() + 1) to offset to calculate the start position of the second path. 
-
-
-
-
-
-
-
+If I have extra time, I will make this engine support the mouse movement. In order to support this, I need another interface: ControllerEngine->BindAxis(InputAxis axis, Function func), which is bound to continuous game behavior. And I will make this engine support gamepad input.  
 
