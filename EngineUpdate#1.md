@@ -49,4 +49,4 @@ For Gamepad support, it seems there is no general c++ SDK for controller on wind
 For xbox 360 controller, we can just develop with [Xinput](https://docs.microsoft.com/en-us/windows/win32/xinput/xinput-and-directinput).
 For dual shock 4(ps4 controller), there is no easy way to add support for it, since there is no official sdk for it(no need since it's not designed for Windows platform). Refering to the [library](https://github.com/jibbsmart/JoyShockLibrary). If we want to add support from scratch, we have to use [cross platform HID api](https://github.com/signal11/hidapi) in order to write decent platform-independent code. 
 
-So I decide to only support xbox 360 controller for Windows for the Engine. I'll try to make the interface platform-independent, though it will only support Windows.
+So I decide to only support xbox 360 controller for Windows for the Engine. I'll try to make the interface platform-independent, though the Engine will only support Windows.
