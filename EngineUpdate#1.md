@@ -14,8 +14,8 @@ enum eInputEvent
 
 //i_key:        the input key representation, for now it's the same as the type i_keyCode from the UserInput Module.
 //i_inputEvent: the key event representation, it only support two events now, e_pressed means key is pressed, e_released means the first time the key is released.
-//callback    : the callback function that will bind to the key.
-void BindAction(uint_fast8_t i_key, eInputEvent i_inputEvent, std::function<void()> callback);
+//i_callback    : the callback function that will bind to the key.
+void BindAction(uint_fast8_t i_key, eInputEvent i_inputEvent, std::function<void()> i_callback);
 ```
 
 At first, I searched a lot for implementing a delegate system in mordern C++, but it turns out the binding functionality the controller(or user input) system needed only 
