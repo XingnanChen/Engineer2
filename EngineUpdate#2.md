@@ -1,16 +1,26 @@
 # Engine Update \#2
 
 
-This Week, I used XInput and made my engine support gamepad input.    
+This Week, I used XInput and made my engine support gamepad input(A, B, X, Y).    
 
 At first, I created a Enum called eGamepadKeyCodes to make users understand the input easily.  
 ```cpp  
 eGamepadKeyCodes
 {
-  A,
-  B,
-  X,
-  Y
+  A = XINPUT_GAMEPAD_A,
+  B = XINPUT_GAMEPAD_B,
+  X =	XINPUT_GAMEPAD_X,
+  Y = XINPUT_GAMEPAD_Y,
+  UP = XINPUT_GAMEPAD_DPAD_UP,	
+  DOWN = XINPUT_GAMEPAD_DPAD_DOWN,	
+  LEFT = XINPUT_GAMEPAD_DPAD_LEFT,	
+  RIGHT = XINPUT_GAMEPAD_DPAD_RIGHT,	
+  START = XINPUT_GAMEPAD_START,	
+  BACK = XINPUT_GAMEPAD_BACK,	
+  LT = XINPUT_GAMEPAD_LEFT_THUMB,	
+  RT = XINPUT_GAMEPAD_RIGHT_THUMB,
+  LS = XINPUT_GAMEPAD_LEFT_SHOULDER,
+  RS = XINPUT_GAMEPAD_RIGHT_SHOULDER
 };
 ```  
 
