@@ -1,7 +1,7 @@
 # Engine Update \#2
 
 
-This Week, I used XInput and made my engine support gamepad input(A, B, X, Y).    
+This Week, I used XInput and made my engine support gamepad input.    
 
 At first, I created a Enum called eGamepadKeyCodes to make users understand the input easily.  
 ```cpp  
