@@ -5,7 +5,7 @@ This Week, I used XInput and made my engine support gamepad input.
 
 At first, I created a Enum called eGamepadKeyCodes to make users understand the input easily.  
 ```cpp  
-eGamepadKeyCodes
+enum eGamepadKeyCodes
 {
   A = XINPUT_GAMEPAD_A,
   B = XINPUT_GAMEPAD_B,
