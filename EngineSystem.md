@@ -3,10 +3,14 @@
 My engine system is to make a game controller engine and make it easy for users to get the inputs from different devices such as keyboard, mouse and gamepad, so that users can control the objects easily.  
 
 ## Downloads:  
-[ControllerEngine](https://github.com/XingnanChen/Engineer2/blob/master/Engine/UserInput.zip?raw=true)  
+[ControllerEngine](https://github.com/XingnanChen/Engineer2/blob/master/Engine/UserInput.zip?raw=true)    
 
 ## Game running:  
 ![Image](Engine/gamerunning.gif)  
+Use WASD on the keyboard to control the movement of camera  
+Use Up/Down/Left/Right on the keyboard to control the movement of object  
+Use A/B/X/Y on the Xbox Controller to control the movement of camera  
+Use LeftThumbStick on the Xbox Controller to control the movement of object  
 
 ## How to Use  
 If you want to use my project, you need download zip I shared in this page. There are four files in this zip.  
