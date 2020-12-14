@@ -8,7 +8,12 @@
 
 ### ScreenShots  
 Game Running  
-![Image](FinalGame/gamerunning.png)  
+![Image](FinalGame/gamerunning.png)   
+Keyboard/Xbox Controller  
+A       /DPAD Left           :Move current tetrimino left  
+D       /DPAD Right          :Move current tetrimino right  
+Left    /Y                   :Rotate current tetrimino counter-clockwise  
+Right   /B                   :Rotate current tetrimino clockwise  
 
 ### Final Project:  
 I played a lot of Tetris 99 on Nintendo Switch recently, so I decided to make a Tetris game.  
